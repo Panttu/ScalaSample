@@ -13,7 +13,6 @@ class ShuntingYard() {
     var isNumber : Boolean = false
     for(char <- input)
     {
-    	println("Token: " + char)
       if(char.isDigit)
       {
       	// if this and last token was number, merges the last char and this to new number
@@ -52,7 +51,6 @@ class ShuntingYard() {
   private def precedence(priority: Int, operator:String): Boolean = {
   	try { 
 
-  	//println("precedence: " + operator)
   	if(!stack.isEmpty)
   	{
 	  	while(priority == 1 && !stack.isEmpty && (stack.top == "+" || stack.top == "-" || stack.top == "*" || stack.top == "/"))
