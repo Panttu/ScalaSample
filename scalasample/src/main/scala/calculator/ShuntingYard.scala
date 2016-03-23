@@ -13,7 +13,7 @@ class ShuntingYard() {
     var isNumber : Boolean = false
     for(char <- input)
     {
-    	println("Token: " + char)
+    	//println("Token: " + char)
       if(char.isDigit)
       {
       	// if this and last token was number, merges the last char and this to new number

@@ -20,14 +20,6 @@ class CalculatorServiceActor extends Actor with RestService
 {
 	def actorRefFactory = context
 	def receive = runRoute(restRoute)
-	/*
-	def receive = { 
-		case "test" => println("test response")
-		case HttpRequest(GET, Uri.Path("/ping"), _, _, _) =>
-		sender ! HttpResponse(entity = "PONG")
-		case _       => println("huh?")
-	}
-	*/
 }
 
 trait RestService extends HttpService {
@@ -38,30 +30,8 @@ trait RestService extends HttpService {
   			path("ping")
   			{
   				complete(HttpResponse(entity = "vastaus"))
-  				//complete("PONG")
   			}
   		}
-  		/*
-    path("entity") {
-      	get { 
-        complete(HttpResponse(entity = "vastaus"))
-      } ~
-      put {
-        complete(HttpResponse(entity = "tehty"))
-      }
-    }
-    */
   }
-  /*
-  def pingRoute = path("ping") {
-    get { complete("pong!") }
-  }
-
-  def pongRoute = path("pong") {
-    get { complete("pong!?") }
-  }
-
-  def restRoute = pingRoute ~ pongRoute
-  */
 }
 

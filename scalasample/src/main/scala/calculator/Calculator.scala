@@ -15,41 +15,38 @@ import java.nio.charset.StandardCharsets
 import config.Configuration
 
 object Boot extends App with Configuration{
-  /*
+
 	implicit val system = ActorSystem("calculatorService")
   println("config: " + serviceHost + " port " + servicePort)
-	val restService = system.actorOf(Props[CalculatorServiceActor], "calculatorEndpoint")
-  println("service: " + restService)
-  restService ! "test"
-  restService ! "test2"
-  */
+	//val restService = system.actorOf(Props[CalculatorServiceActor], "calculatorEndpoint")
+  //println("service: " + restService)
+  //restService ! "test"
+  //restService ! "test2"
   // Starts HTTP server with calcuator service actor as a handler
 	//IO(Http) ! Http.Bind(restService, serviceHost, servicePort)
   implicit val shuttingYard: ShuntingYard = new ShuntingYard
   var stack = new Stack[Double]
   val encoded = "MiAqICgyMy8oMyozKSktIDIzICogKDIqMyk="
   println("Encoded: " + encoded)
-  println(decodeString(encoded))
+  println("Decoded: " + decodeString(encoded))
   val decoded = decodeString(encoded)
   val trimmed = decoded.replaceAll(" ", "")
   val postfix = shuttingYard.toPostfix(trimmed)
   readCalculation(postfix)
   if(!stack.isEmpty)
   {
-    println(stack + " result: " + stack.top)
+    println("Result: " + stack.top)
   }
-  //readCalculation("2 * (23/(3*3)) - 23 * (2*3)")
   println("Hit any key to exit.")
   val result = StdIn.readLine()
   println("Shutting down...")
   //system.shutdown()
   println("Shut down.")
 
-  def readCalculation(postfix: Stack[String])
+  private def readCalculation(postfix: Stack[String])
   {
     println("Postfix: " + postfix)
     for (inputStr <- postfix) {
-      println("Token: " + inputStr) 
       if (isAllDigits(inputStr)) {
         parseDouble(inputStr) match {
           case Some(i) => stack.push(i)
@@ -57,24 +54,19 @@ object Boot extends App with Configuration{
         }
       } 
       else {
-        println("calculate: " + stack) 
         inputStr match {
           case "+" => calculate(_ + _)
           case "-" => calculate(_ - _)
           case "*" => calculate(_ * _)
           case "/" => calculate(_ / _)
           case _ => println("Tuntematon: " + inputStr)
-
         }
-        println("ResultStack: " + stack) 
-        
         
       }
     }
   }
 
   private def calculate(operatiton:(Double, Double) => Double) = {
-    //println("Calculation:" + stack.top + " " + operatiton)
     val last = stack.pop
     stack.push(operatiton(stack.pop, last))
   }
