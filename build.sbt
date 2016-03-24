@@ -1,7 +1,7 @@
 import sbt._
 import Process._
 import Keys._
-lazy val root = (project in file(".")).enablePlugins(JavaAppPackaging).enablePlugins(PlayScala).
+lazy val root = (project in file(".")).enablePlugins(JavaAppPackaging).
     settings(
         name := "calculus",
         version := "1.0",
@@ -22,6 +22,7 @@ libraryDependencies ++= {
     "com.typesafe.akka" %% "akka-slf4j" % akkaVersion
     )
 }
+libraryDependencies <+= scalaVersion("org.scala-lang" % "scala-compiler" % _ )
 
 resolvers ++= Seq(
     "Spray repository" at "http://repo.spray.io",
