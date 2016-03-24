@@ -2,17 +2,19 @@ package calculator
 
 import scala.collection.mutable.Stack
 
+// Class for creating postfix notion from infix notation
+// Uses own variation from Shunting yard algorithm
 class ShuntingYard() {
 	
   var result = new Stack[String]
-  var stack = new Stack[String]
 
   def toPostfix(input: String):Stack[String] =
   {
-  	println("toPostfix: " + input)
+  	var stack = new Stack[String]
     var isNumber : Boolean = false
     for(char <- input)
     {
+    	//println("Token: " + char)
       if(char.isDigit)
       {
       	// if this and last token was number, merges the last char and this to new number
@@ -30,13 +32,13 @@ class ShuntingYard() {
       else
       {
         char match {
-          case '+' => precedence(1, "+")
-          case '-' => precedence(1, "-")
-          case '*' => precedence(2, "*")
-          case '/' => precedence(2, "/")
+          case '+' => precedence(1, "+", stack)
+          case '-' => precedence(1, "-", stack)
+          case '*' => precedence(2, "*", stack)
+          case '/' => precedence(2, "/", stack)
           case '(' => stack.push(char.toString)
-          case ')' => precedence(3, ")")
-          case _ => None
+          case ')' => precedence(3, ")", stack)
+          case _ => throw new Exception("Unknown operator: " + char)
         } 
         isNumber = false
       }
@@ -48,9 +50,8 @@ class ShuntingYard() {
     return stack
   }
 
-  private def precedence(priority: Int, operator:String): Boolean = {
+  private def precedence(priority: Int, operator:String, stack:Stack[String]): Boolean = {
   	try { 
-
   	if(!stack.isEmpty)
   	{
 	  	while(priority == 1 && !stack.isEmpty && (stack.top == "+" || stack.top == "-" || stack.top == "*" || stack.top == "/"))
@@ -76,11 +77,10 @@ class ShuntingYard() {
   	println("stack: " + stack)
   	println("result: " + result)
   	return true
-  	  	  // ...
   	} catch {
   	  case e: Exception => {
   	  	println("Exception: " + e)
-  	  	return false
+  	  	throw new Exception("precedence: " + e.getMessage())
   		}
   	}
   }
