@@ -1,22 +1,24 @@
 import sbt._
 import Process._
 import Keys._
-lazy val root = (project in file(".")).
+lazy val root = (project in file(".")).enablePlugins(JavaAppPackaging).
     settings(
-        name := "calculator",
+        name := "calculus",
         version := "1.0",
-        scalaVersion := "2.11.1"
+        scalaVersion := "2.11.6"
         //sbt version is 0.13.11
     )
 
 libraryDependencies ++= {
-    val akkaVersion = "2.3.2"
-    val sprayVersion = "1.3.1"
+    val akkaVersion = "2.3.9"
+    val sprayVersion = "1.3.3"
     Seq(
-    "io.spray" % "spray-can" % sprayVersion,
-    "io.spray" % "spray-http" % sprayVersion,
-    "io.spray" % "spray-routing" % sprayVersion,
+    "io.spray" %% "spray-can" % sprayVersion,
+    "io.spray" %% "spray-routing" % sprayVersion,
+    "io.spray" %% "spray-json"    % "1.3.2",
+    "io.spray" %% "spray-testkit" % sprayVersion,
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,
+    "com.typesafe.akka" %% "akka-testkit" % akkaVersion,
     "com.typesafe.akka" %% "akka-slf4j" % akkaVersion
     )
 }
@@ -27,4 +29,4 @@ resolvers ++= Seq(
     "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/"
 )
 
-scalacOptions += "-deprecation"
+scalacOptions ++= Seq("-deprecation", "-feature")
