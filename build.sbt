@@ -22,6 +22,7 @@ libraryDependencies ++= {
     "com.typesafe.akka" %% "akka-slf4j" % akkaVersion
     )
 }
+libraryDependencies <+= scalaVersion("org.scala-lang" % "scala-compiler" % _ )
 
 resolvers ++= Seq(
     "Spray repository" at "http://repo.spray.io",
