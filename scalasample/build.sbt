@@ -1,7 +1,7 @@
 import sbt._
 import Process._
 import Keys._
-lazy val root = (project in file(".")).enablePlugins(JavaAppPackaging).
+lazy val root = (project in file(".")).enablePlugins(JavaAppPackaging).enablePlugins(PlayScala).
     settings(
         name := "calculus",
         version := "1.0",
