@@ -17,11 +17,5 @@ object Boot extends App with Configuration{
 
   // Starts HTTP server with calcuator service actor as a handler
 	IO(Http) ! Http.Bind(restService, serviceHost, servicePort)
-
-  println("Hit any key to exit.")
-  val result = StdIn.readLine()
-  println("Shutting down...")
-  system.shutdown()
-  println("Shut down.")
   }
 
