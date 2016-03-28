@@ -97,12 +97,13 @@ trait CalculusService extends HttpService {
   					complete {
   						Error("true", "Unknown path")
   				  }
-  			} ~ {
-            complete {
-              Error("true", "Unknown operation")
-            }
+  			}
+  		} ~ 
+      {
+        complete {
+          Error("true", "Unknown operation")
         }
-  		}
+      }
   	}
 
     // Handles given calculus query and returns calculated value as double
