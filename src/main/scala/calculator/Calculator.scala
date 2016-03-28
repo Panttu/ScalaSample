@@ -10,15 +10,15 @@ import config.Configuration
 
 object Boot extends App with Configuration{
 
-	implicit val system = ActorSystem("calculator")
+	implicit val system = ActorSystem("calculus")
     // for Heroku compatibility
-  val myPort = Properties.envOrElse("PORT", "8081").toInt 
-  println("config: " + serviceHost + " port " + myPort)
+  	val myPort = Properties.envOrElse("PORT", "8081").toInt
+  	val myHost = Properties.envOrElse("HOST", "localhost")  
+  	println("config: " + myHost + " port " + myPort)
   
-  val restService = system.actorOf(Props[CalculatorServiceActor], "calculator-service")
-  println("service: " + restService)
+  	val restService = system.actorOf(Props[CalculusServiceActor], "calculus-service")
 
-  // Starts HTTP server with calcuator service actor as a handler
-	IO(Http) ! Http.Bind(restService, "0.0.0.0", myPort)  
+  	// Starts HTTP server with calcuator service actor as a handler
+	IO(Http) ! Http.Bind(restService, myHost, myPort)  
 }
 

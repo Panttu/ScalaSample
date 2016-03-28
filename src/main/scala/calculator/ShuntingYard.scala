@@ -14,15 +14,15 @@ class ShuntingYard() {
     var isNumber : Boolean = false
     for(char <- input)
     {
-    	//println("Token: " + char)
       if(char.isDigit)
       {
-      	// if this and last token was number, merges the last char and this to new number
+      	// If this and last token was number, merges the last char and this to new number.
         if(isNumber)
         {
           val temp = result.pop + char
           result.push(temp)
         }
+        // Else number is complete and pushes it to result stack.
         else
         {
           result.push(char.toString)
@@ -44,12 +44,13 @@ class ShuntingYard() {
       }
     }
     while(!stack.isEmpty) { result.push(stack.pop)}
-    println(result)
-    // Turns result around to right order
+    // Turns result stack around to right order
     while(!result.isEmpty) {stack.push(result.pop)}
+    println(stack)
     return stack
   }
 
+  // Checks given operator's precedence and sorts the post fix and operator stack
   private def precedence(priority: Int, operator:String, stack:Stack[String]): Boolean = {
   	try { 
   	if(!stack.isEmpty)
@@ -66,7 +67,7 @@ class ShuntingYard() {
 	  	{
 	  		result.push(stack.pop)
 	  	}
-	  	// Removes pharentehis from stack
+	  	// Removes closing pharentehis from stack
 	  	if(priority == 3)
 	  	{ 
 	  		stack.pop 
@@ -74,13 +75,10 @@ class ShuntingYard() {
 	  	}
   	}
   	stack.push(operator)
-  	println("stack: " + stack)
-  	println("result: " + result)
   	return true
   	} catch {
   	  case e: Exception => {
-  	  	println("Exception: " + e)
-  	  	throw new Exception("precedence: " + e.getMessage())
+  	  	throw new Exception("Precedence error: " + e.getMessage())
   		}
   	}
   }
